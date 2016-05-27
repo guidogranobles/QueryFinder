@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Query Finder</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/foundation-icons/foundation-icons.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="scripts/thirdparty/google-code-prettify/prettify.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Polyfill(s) for older browsers -->
+    <script src="scripts/obrowsersp/es6-shim.min.js"></script>
+    <script src="scripts/obrowsersp/zone/zone.js"></script>
+    <script src="scripts/obrowsersp/Reflect.js"></script>
+    <script src="scripts/obrowsersp/systemjs/system.src.js"></script>
+     <!--<script src="scripts/thirdparty/google-code-prettify/prettify.js"></script> -->
+    <script src="scripts/thirdparty/google-code-prettify/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=sql" defer="defer"></script>
+    <script src="scripts/vendor/fundation.min.js"></script>
+    <script src="conf/systemjs.config.js"></script>
+
+      <script>
+          System.import('app').catch(function(err){ console.error(err);  });
+    </script>
+  </head>
+
+  <body>
+    <my-app>Loading... xxx</my-app>
+  </body>
+</html>

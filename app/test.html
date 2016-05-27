@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Making Quines Prettier</title>
+<!-- The defer is not necessary for autoloading, but is necessary for the
+     script at the bottom to work as a Quine. -->
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- Polyfill(s) for older browsers -->
+    <script src="scripts/obrowsersp/es6-shim.min.js"></script>
+    <script src="scripts/obrowsersp/zone/zone.js"></script>
+    <script src="scripts/obrowsersp/Reflect.js"></script>
+    <script src="scripts/obrowsersp/systemjs/system.src.js"></script>
+    <script src="conf/systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err);  });
+    </script>
+	<script src="scripts/thirdparty/google-code-prettify/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=sql" defer="defer"></script>
+
+</head>
+ 
+<body>
+<header>
+	<div class="top-bar">				
+		<div class="small-1 medium-1 large-1 medium-offset-1 large-offset-1 columns" id="img-logo"> </div>						 
+		<div class="hide-for-small-only medium-1 large-1 medium-offset-3 large-offset-2 columns" id="init-link">
+	
+		</div>						
+		
+			
+		<div class="small-4 medium-2 large-2 columns end" id="icons-notify">
+			
+		</div>				 			
+	</div>
+</header>
+<div class="off-canvas-wrapper">
+    <div class="off-canvas-wrapper-inner">
+		
+        <div class="off-canvas-content" data-off-canvas-content>
+            
+            <div class="row columns" id="post-cols">
+                <div class="row small-up-1 medium-up-4 large-up-4" >
+                    <div class="column">
+                        <form>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-header"></div>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-body">
+                                <div>
+                                    <span><strong>Filter by fields</strong></span>
+                                     <div class="callout column search-filters" >
+                                         <div>
+                                            <input type="checkbox" value="description"><span>Description</span>
+                                         </div>
+                                         <div>
+                                            <input type="checkbox" value="query"><span>Query</span>
+                                         </div>
+                                         <div>
+                                             <input type="checkbox" value="tags"><span>Tags</span>
+                                         </div>
+                                         <div>
+                                             <input type="checkbox" value="author"><span>Author</span>
+                                         </div>
+                                     </div>
+                                </div>
+                                <div>
+                                     <span><strong>Filter by team</strong></span>
+                                     <div class="callout column search-filters" >
+                                          <div>
+                                              <input type="checkbox" value="description"><span>Application Management</span>
+                                          </div>
+                                          <div>
+                                              <input type="checkbox" value="query"><span>Closing/Funding </span>
+                                          </div>
+                                          <div>
+                                               <input type="checkbox" value="tags"><span>Doc Gen / Prepaids</span>
+                                           </div>
+                                         <div>
+                                             <input type="checkbox" value="tags"><span>Pricing - Closing Fees</span>
+                                         </div>
+                                     </div>
+                                 </div>
+                            </div>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-footer">
+                                <div>
+                                    <span>Terms</span>
+                                </div>
+                                <input type="search">
+                                <a href="#" class="button">Search</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="column" id="col-results">
+                        <form>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-header">
+                                <div class="query-description">
+                                    <span><strong>Description:</strong></span><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum non justo id efficitur.
+                                        Quisque diam elit, pharetra ac euismod interdum, convallis quis dolor. Maecenas sagittis ac arcu rhoncus gravida.
+                                        Integer auctor vehicula purus, sit amet egestas quam porta in. Ut vel quam a ante gravida euismod.
+                                        Aenean scelerisque quam in sem tempus pharetra.</p>
+                                    <div class="headerDivider"></div>
+                                </div>
+
+                                <div class="query-author">
+                                    <span><strong>Author:</strong></span><p>amet egestas quam porta</p>
+                                </div>
+                            </div>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-body">
+                                <span><strong>Query:</strong></span><pre class="prettyprint">
+                                select d.enterprise_deal_id, pr.servicing_loan_acct_num as LSN, rd1.ref_code as milestone_status, rd1.reference_type_id, rd3.ref_code
+                                from product_request pr
+                                inner join deal d on d.deal_id = pr.deal_id and pr.scenario_id = d.current_applied_scenario_id
+                                inner join milestone m on m.milestone_id = pr.current_milestone_id
+                                left outer join Prod_avl prod_avl on pr.prod_avl_id=prod_avl.prod_avl_id
+                                left outer join CR_SEG crseg on prod_avl.cr_seg_gen_id=crseg.cr_seg_gen_id --and crseg.exit_strategy_ref_id = 414800025
+                                inner join reference_data rd1 on rd1.reference_data_id = m.milestone_status_ref_id and rd1.ref_code like '%Final%'
+                                inner join reference_data rd2 on rd2.reference_data_id=crseg.exit_strategy_ref_id -- and rd2.ref_code like '%FHA%'
+                                inner join reference_data rd3 on rd3.reference_data_id=pr.loan_purp_ref_id; --and rd3.ref_code like '%Refi%';
+                            </pre>
+                            </div>
+                        </form>
+                        <form>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-header">
+                                <div class="query-description">
+                                    <span><strong>Description:</strong></span><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum non justo id efficitur.
+                                    Quisque diam elit, pharetra ac euismod interdum, convallis quis dolor. Maecenas sagittis ac arcu rhoncus gravida.
+                                    Integer auctor vehicula purus, sit amet egestas quam porta in. Ut vel quam a ante gravida euismod.
+                                    Aenean scelerisque quam in sem tempus pharetra.</p>
+                                    <div class="headerDivider"></div>
+                                </div>
+
+                                <div class="query-author">
+                                    <span><strong>Author:</strong></span><p>amet egestas quam porta</p>
+                                </div>
+                            </div>
+                            <div class="row callout small-up-2 medium-up-2 large-up-2 post-body">
+                                <span><strong>Query:</strong></span><pre class="prettyprint">
+                                select * from party where party.party_name like '%Test Settlement Company G%';
+                                    select * from party where party_id = 1001965102;
+                                    select party2_."PARTY_ID" as col_0_0_ from "PARTY" party0_
+                                    inner join "PARTY_RELATIONSHIP" targetpart1_ on party0_."PARTY_ID"=targetpart1_."TARGET_PARTY_ID"
+                                    inner join "PARTY" party2_ on targetpart1_."SOURCE_PARTY_PARTY_ID"=party2_."PARTY_ID"
+                                    where party0_."PARTY_ID"= 1001881210 and party2_."PARTY_TYPE_REF_ID"=1013;
+                            </pre>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+ 
+
+</body>
+</html>
