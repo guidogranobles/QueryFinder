@@ -1,0 +1,171 @@
+<div class="off-canvas-wrapper">
+    <div class="off-canvas-wrapper-inner">
+
+        <div class="off-canvas-content" data-off-canvas-content>
+
+            <div class="row columns" id="main-content">
+                <div class="row medium-15 large-15">
+                    <div>
+                        <div class="sidebar column large-4">
+                            <form
+                            (ngSubmit)="findQuery()" #findQueryForm="ngForm" id="frm-search">
+                                    <div class="row callout small-up-2 medium-up-2 large-up-2 form-header">
+                                        <span>Choose filters for this search</span>
+                                    </div>
+                                    <div class="row callout small-up-2 medium-up-2 large-up-2 form-body">
+                                        <div>
+                                            <span><strong>Filter by fields</strong></span>
+
+                                            <div class="callout column search-filters">
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="fieldFilters.description.selected"
+                                                    ngControl="chkDescription" #chkDescription="ngForm">
+                                                    <span>{{fieldFilters.description.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="fieldFilters.query.selected"
+                                                    ngControl="chkQuery"
+                                                    #chkQuery="ngForm"><span>{{fieldFilters.query.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="fieldFilters.tags.selected"
+                                                    ngControl="chkTags"
+                                                    #chkTags="ngForm"><span>{{fieldFilters.tags.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="fieldFilters.author.selected"
+                                                    ngControl="chkAuthor" #chkAuthor="ngForm"><span>{{fieldFilters.author.label}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span><strong>Filter by team</strong></span>
+
+                                            <div class="callout column search-filters">
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="teamFilters.teamAppManag.selected"
+                                                    ngControl="chkAppManag" #chkAppManag="ngForm"><span>{{teamFilters.teamAppManag.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="teamFilters.teamClosFun.selected"
+                                                    ngControl="chkClosFun" #chkClosFun="ngForm"><span>{{teamFilters.teamClosFun.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="teamFilters.teamDocGenp.selected"
+                                                    ngControl="chkDocGenp" #chkDocGenp="ngForm"><span>{{teamFilters.teamDocGenp.label}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" [(ngModel)]="teamFilters.teamPricingFees.selected"
+                                                    ngControl="chkPricingFees" #chkPricingFees="ngForm"><span>{{teamFilters.teamPricingFees.label}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row callout small-up-2 medium-up-2 large-up-2 form-footer">
+                                        <div>
+                                            <span>Terms</span>
+                                        </div>
+                                        <input type="search" class="search-filters" [(ngModel)]="txtSearch"
+                                        ngControl="chkSearch" #chkSearch="ngForm">
+                                        <button type="submit" class="button">Search</button>
+                                    </div>
+                            </form>
+                            <div id="frm-error" [ngStyle]="{'animation': opValue}" >
+
+                                <div class="row callout small-up-2 medium-up-2 large-up-2 form-header">
+                                    <span>Error!</span>
+                                </div>
+                                <div class="row callout small-up-2 medium-up-2 large-up-2 form-body">
+                                <div class="row large-15" id="msg-error-container">
+                                      <div class="column large-15">
+                                        <input type="text" readonly="true" [(ngModel)]="errorMessage"/>
+                                      </div>
+                                    <div class="column large-5 end">
+                                         <small class="error">Invalid entry</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="headerDivider" id="divider-results"></div> -->
+                    <div class="column large-11" id="results-container">
+                        <div class="row" id="search-title">Search results</div>
+
+                        <div class="callout row large-11" id="col-results">
+
+
+                            <form
+                            *ngFor="let sqlQuery of sqlQueries">
+
+                            <div class="row callout  medium-15 large-15 form-header">
+                                <div class="column large-6 ">
+                                    <div class="query-description">
+                                        <span><strong>Description:</strong></span>
+
+                                        <p> {{sqlQuery.description}}.</p>
+                                    </div>
+                                </div>
+                                <div class="headerDivider"></div>
+                                <div class="column large-2 ">
+                                    <div class="">
+                                        <span><strong>Author:</strong></span>
+
+                                        <p>{{sqlQuery.author}}</p>
+                                    </div>
+                                </div>
+                                <div class="headerDivider"></div>
+                                <div class="column large-2 ">
+                                    <div class="">
+                                        <span><strong>Team:</strong></span>
+
+                                        <p>{{sqlQuery.team}}</p>
+                                    </div>
+                                </div>
+                                <div class="headerDivider"></div>
+                                <div class="column large-2 ">
+                                    <div class="">
+                                        <span><strong>Version:</strong></span>
+
+                                        <p>{{sqlQuery.version}}</p>
+                                    </div>
+                                </div>
+                                <div class="headerDivider"></div>
+                                <div class="column large-2  end">
+                                    <div class="">
+                                        <span><strong>Creation date:</strong></span>
+
+                                        <p>{{sqlQuery.creationDate.substr(0, 10)}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row callout medium-15 large-15 form-body">
+                                <span><strong>Query:</strong></span>
+                                    <pre dg-prettify class="prettyprint prettyprinted">
+                                          {{sqlQuery.query}};
+                                    </pre>
+                            </div>
+                            <div class="row callout  medium-15 large-15 form-footer">
+                                <div>
+                                    <nav>
+                                        <a href="#" role="button" title="Edit query"><i
+                                                class="step fi-page-edit size-60"></i></a>
+                                        <a href="#" role="button" title="Delete query"><i
+                                                class="step fi-page-delete size-60"></i></a>
+                                        <a href="#" role="button" title="Add to favorites"><i
+                                                class="step fi-star size-60"></i></a>
+                                    </nav>
+                                </div>
+                            </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
