@@ -1,6 +1,6 @@
 # Query Finder Source
 
-This repository holds the TypeScript source code of the [Query Finder Tool),
+This repository holds the TypeScript source code of the [Query Finder Tool],
 It allows to find sql queries already made by team members.
 
 ## Prerequisites
