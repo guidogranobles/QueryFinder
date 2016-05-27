@@ -1,0 +1,6 @@
+{
+  "port": 8123,
+  "files": ["./**/*.{html,htm,jsp,css,js}"],
+  "server": { "baseDir": "./" },
+  "browser" : ["chrome", "firefox"]
+}

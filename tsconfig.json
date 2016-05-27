@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -9,5 +9,12 @@
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts",
+	"app/scripts/thirdparty",
+	"app/scripts/obrowsersp"
+  ]
 }
