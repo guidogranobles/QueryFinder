@@ -21,6 +21,12 @@ export class Content {
                     query: {field: 'Query',  label:'query', selected: false}, tags: { field: 'Tags',  label:'tags', selected: false},
                     author: { field: 'Author',  label:'author', selected: false } };
 
+     teamFilters =  {
+					  team1: { field: 'Team1',  label:'Team 1', selected: false},
+					  team2: { field: 'Team2',  label:'Team 2', selected: false},
+					  team3: { field: 'Team3',  label:'Team 3', selected: false},
+                      team4: { field: 'Team4',  label:'Team 4', selected: false } 
+					 };
    
     txtSearch: string = '';
     errorMessage: string;
