@@ -43,20 +43,20 @@
 
                                             <div class="callout column search-filters">
                                                 <div>
-                                                    <input type="checkbox" [(ngModel)]="teamFilters.team1.selected"
-                                                    ngControl="chkAppManag" #chkAppManag="ngForm"><span>{{teamFilters.team1.label}}</span>
+                                                    <input type="checkbox" [(ngModel)]="teamFilters.teamAppManag.selected"
+                                                    ngControl="chkAppManag" #chkAppManag="ngForm"><span>{{teamFilters.teamAppManag.label}}</span>
                                                 </div>
                                                 <div>
                                                     <input type="checkbox" [(ngModel)]="teamFilters.teamClosFun.selected"
-                                                    ngControl="chkClosFun" #chkClosFun="ngForm"><span>{{teamFilters.team2.label}}</span>
+                                                    ngControl="chkClosFun" #chkClosFun="ngForm"><span>{{teamFilters.teamClosFun.label}}</span>
                                                 </div>
                                                 <div>
                                                     <input type="checkbox" [(ngModel)]="teamFilters.teamDocGenp.selected"
-                                                    ngControl="chkDocGenp" #chkDocGenp="ngForm"><span>{{teamFilters.team3.label}}</span>
+                                                    ngControl="chkDocGenp" #chkDocGenp="ngForm"><span>{{teamFilters.teamDocGenp.label}}</span>
                                                 </div>
                                                 <div>
                                                     <input type="checkbox" [(ngModel)]="teamFilters.teamPricingFees.selected"
-                                                    ngControl="chkPricingFees" #chkPricingFees="ngForm"><span>{{teamFilters.team4.label}}</span>
+                                                    ngControl="chkPricingFees" #chkPricingFees="ngForm"><span>{{teamFilters.teamPricingFees.label}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -72,16 +72,16 @@
                             </form>
                             <div id="frm-error" [ngStyle]="{'animation': opValue}" >
 
-                                <div class="row callout small-up-2 medium-up-2 large-up-2 form-header">
-                                    <span>Error!</span>
+                                <div class="row callout small-up-2 medium-up-2 large-up-2 form-header" [ngStyle]="{'background-color': backgroundHeader}">
+                                    <span>{{titleHeader}}</span>
                                 </div>
                                 <div class="row callout small-up-2 medium-up-2 large-up-2 form-body">
                                 <div class="row large-15" id="msg-error-container">
                                       <div class="column large-15">
                                         <input type="text" readonly="true" [(ngModel)]="errorMessage"/>
                                       </div>
-                                    <div class="column large-5 end">
-                                         <small class="error">Invalid entry</small>
+                                    <div class="column large-15 end">
+                                         <small class="error">{{footerMsg}}</small>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                     <div class="column large-11" id="results-container">
                         <div class="row" id="search-title">Search results</div>
 
-                        <div class="callout row large-11" id="col-results">
+                        <div class="callout row" id="col-results">
 
 
                             <form
