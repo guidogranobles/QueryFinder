@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import { NgForm }    from '@angular/common';
-import { NgClass }    from '@angular/common';
+import { NgStyle }    from '@angular/common';
 
 import {Sidebar} from './sidebar.component';
 import {PrettifyDirective} from './prettify.directive';
@@ -10,7 +10,7 @@ import {SQLQuery}  from './sqlQuery.model';
 @Component({ 
 	selector: 'my-content',
 	templateUrl: 'html/content.html',
-	directives: [Sidebar, PrettifyDirective, NgClass],
+	directives: [Sidebar, PrettifyDirective, NgStyle],
     providers: [QFinderService]
 })
 export class Content {
@@ -21,21 +21,25 @@ export class Content {
                     query: {field: 'Query',  label:'query', selected: false}, tags: { field: 'Tags',  label:'tags', selected: false},
                     author: { field: 'Author',  label:'author', selected: false } };
 
-     teamFilters =  {
-					  team1: { field: 'Team1',  label:'Team 1', selected: false},
-					  team2: { field: 'Team2',  label:'Team 2', selected: false},
-					  team3: { field: 'Team3',  label:'Team 3', selected: false},
-                      team4: { field: 'Team4',  label:'Team 4', selected: false } 
-					 };
-   
+    teamFilters = { teamAppManag: { label:'Application Management', selected: false}, teamClosFun: { label: 'Closing/Funding', selected: false},
+                                    teamDocGenp: { label:'Doc Gen / Prepaids', selected: false}, teamPricingFees: { label: 'Pricing - Closing Fees', selected: false} };
+
     txtSearch: string = '';
     errorMessage: string;
     errorMsgVisible: boolean = false;
     opValue: string;
+    titleHeader: string = '';
+    backgroundHeader: string = '';
+    footerMsg: string = '';
     sqlQueries: SQLQuery[];
 
      findQuery(){
 
+        if(this.sqlQueries){
+            this.sqlQueries.length = 0;
+        }
+
+        this.errorMessage = "";
 
         var selectedFieldFilters = this.getSelectedFilters(this.fieldFilters);
         var selectedTeamFilters = this.getSelectedFilters(this.teamFilters);
@@ -48,6 +52,12 @@ export class Content {
             this.getByFullFilters(this.txtSearch, this.getStringItemsFromArray(selectedFieldFilters), this.getStringItemsFromArray(selectedTeamFilters));
         }else if(selectedFieldFilters.length === 0 && selectedTeamFilters.length === 0 && this.txtSearch.length === 0){
             this.getAll();
+        }else{
+            this.errorHandler('The search parameters are wrong. Please fix and try again');
+        }
+
+        if(this.sqlQueries && this.sqlQueries.length === 0 && this.errorMessage.length === 0){
+            this.errorHandler('No results found');
         }
 
     }
@@ -69,7 +79,7 @@ export class Content {
     private getAll() {
         this.qFinderService.getAll()
             .subscribe(
-                sqlQueries => {this.errorMsgVisible=false; this.sqlQueries = sqlQueries},
+                sqlQueries => this.responseProcessor(sqlQueries),
                 error =>   this.errorHandler( <any>error)
         );
     }
@@ -78,7 +88,7 @@ export class Content {
         console.log('getByFullFilters' + fields);
         this.qFinderService.getByFullFilters(exp, fields, teams)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>   this.errorHandler( <any>error)
         );
     }
@@ -86,7 +96,7 @@ export class Content {
     private getByTeamsOnly(teams: string) {
         this.qFinderService.getByTeams(teams)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>  this.errorHandler( <any>error)
         );
     }
@@ -94,7 +104,7 @@ export class Content {
     private getByDescription(desc: string) {
         this.qFinderService.getByDescription(desc)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>  this.errorHandler( <any>error)
         );
     }
@@ -102,7 +112,7 @@ export class Content {
     private getByQuery(query: string) {
         this.qFinderService.getByQuery(query)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>   this.errorHandler( <any>error)
         );
     }
@@ -110,7 +120,7 @@ export class Content {
     private getByTags(tags: string) {
         this.qFinderService.getByTags(tags)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>  this.errorHandler( <any>error)
         );
     }
@@ -118,7 +128,7 @@ export class Content {
     private getByAuthor(author: string) {
         this.qFinderService.getByAuthor(author)
             .subscribe(
-            sqlQueries => this.sqlQueries = sqlQueries,
+            sqlQueries => this.responseProcessor(sqlQueries),
             error =>  this.errorHandler( <any>error)
         );
     }
@@ -162,9 +172,31 @@ export class Content {
 
     private errorHandler(error: string){
          this.errorMessage = error;
-         this.errorMsgVisible=true;
-         this.opValue='dissapear 3s linear 0s 2 alternate';
-         var pr = this;
-         setTimeout(function(){ pr.opValue = "";}, 5000);
+         this.showMessage('Error');
+    }
+
+    private responseProcessor(results: SQLQuery[]){
+        if(results && results.length === 0){
+            this.errorMessage = 'No results found';
+            this.showMessage('Info');
+        }else{
+            this.sqlQueries = results;
+        }
+    }
+
+    private showMessage(typeMessage: string){
+        if(typeMessage === 'Error'){
+            this.titleHeader = 'Error!';
+            this.backgroundHeader = "rgba(255, 0, 0, 0.39)";
+            this.footerMsg = 'Invalid entry';
+        }else if (typeMessage === 'Info'){
+            this.titleHeader = 'Information';
+            this.backgroundHeader = "#587DA0";
+            this.footerMsg = 'The server returned 0 records';
+        }
+
+        this.opValue='dissapear 2s linear 0s 2 alternate';
+        var pr = this;
+        setTimeout(function(){ pr.opValue = "";}, 5000);
     }
 }
