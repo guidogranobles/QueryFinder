@@ -1,0 +1,62 @@
+<form [ngFormModel] = "frmAddQuery" (ngSubmit)="onSubmit(frmAddQuery.value)">
+    <div class="row callout  medium-15 large-15 form-header">
+        <div class="column large-7">
+            <div class="query-description" id="query-description-add">
+                <span><strong>Description:</strong></span>
+                <textarea [ngFormControl]="description"></textarea>
+            </div>
+        </div>
+        <div class="column large-2 ">
+            <div class="">
+                <span><strong>Author:</strong></span>
+                <input type="text" #author="ngForm" [ngFormControl]="frmAddQuery.controls['author']">
+            </div>
+        </div>
+        <div class="column large-3 ">
+            <div id="team-list">
+                <span><strong>Team:</strong></span>
+                <select [ngFormControl]="team">
+                  <option *ngFor="let name of teams" >{{name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="column large-2 end">
+            <div class="">
+                <span><strong>Version:</strong></span>
+                <input type="text" [ngFormControl]="version">
+            </div>
+        </div>
+
+    </div>
+    <div class="row callout medium-15 large-15 form-body">
+        <span><strong>Query:</strong></span>
+        <textarea [ngFormControl]="query"></textarea>
+    </div>
+    <div class="row callout  medium-15 large-15 form-footer">
+        <div>
+            <nav>
+                <button type="submit">
+                    <i class="step fi-save size-60"></i>
+                </button>
+                <button type="button" (click)="cancelAction()">
+                    <i class="step fi-page-delete size-60"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+</form>
+<div id="frm-error" class="row large-6 large-push-5"  [ngStyle]="{'animation': opValue}">
+    <div class="row callout large-15 form-header" [ngStyle]="{'background-color': backgroundHeader}">
+        <span>{{titleHeader}}</span>
+    </div>
+    <div class="row callout large-15 form-body">
+        <div class="row large-15" id="msg-error-container">
+            <div class="column large-15">
+                <input readonly="true" type="text" [(ngModel)]="errorMessage">
+            </div>
+            <div class="column large-15 end">
+                <small class="error">{{footerMsg}}</small>
+            </div>
+        </div>
+    </div>
+</div>
