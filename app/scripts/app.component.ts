@@ -12,5 +12,18 @@ import {Footer}           from './footer.component';
 	directives: [Header, Content, Footer],
     providers: [ HTTP_PROVIDERS ]
 })
+export class AppComponent {
 
-export class AppComponent { }
+    currentActivity: any = {
+        action: "Search",
+        label: "Search results"
+    };
+
+    localThis: any = this;
+
+    menuCliked(optionMenu: any){
+        this.localThis.currentActivity = optionMenu.value;
+    }
+
+
+}
