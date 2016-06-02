@@ -43,6 +43,10 @@ body{
 	background-color: #587DA0;
 }
 
+#col-results  .form-header{
+    background-color: #ffffff;
+}
+
 #frm-search .form-header:nth-of-type(1) span{
     color: white;
     font-family: 'Roboto Condensed', sans-serif;
@@ -58,6 +62,14 @@ body{
     display: inline-block;
     float: left;
     width: 70%;
+}
+
+#query-description-add{
+    width: 100%;
+}
+
+.query-description textarea{
+    height: 130px;
 }
 
 .query-description > span{
@@ -77,6 +89,10 @@ body{
 .query-description p{
     display: inline-block;
     float: left;
+}
+
+#team-list select{
+    font-size: 14px;
 }
 
 .form-footer{
@@ -107,6 +123,10 @@ body{
     display: block;
 }
 
+.form-body textarea{
+    height: 300px;
+}
+
 #main-content{
     margin: 0;
     max-width: 100%;
@@ -129,6 +149,8 @@ body{
 #results-container{
     width: 70%;
     margin-top: 20px;
+    margin-right: 0;
+    transition: margin-right 1s linear 0s;
 }
 
 #col-results{
@@ -291,6 +313,18 @@ body{
     color: #587DA0;
     margin-left: 30px;
 }
+#col-results .form-footer nav button{
+    width: 25px;
+    height: 30px;
+    font-size: 24px;
+    color: #fefefe;
+    padding: 2px;
+    color: #587DA0;
+    margin-left: 30px;
+   /* background-color: #2ba6cb;*/
+
+}
+
 .button{
     background-color: #587DA0;
 }
@@ -299,6 +333,7 @@ body{
     margin-top: 20px;
     padding: 0;
 }
+
 
 #header-menu i, a{
     color: #ffffff;
@@ -316,9 +351,13 @@ body{
    font-size: 32px;
 }
 
+#header-menu nav button:nth-of-type(1n+2){
+    margin-left: 120px;
+}
+
 #frm-error{
-    margin-top: 20px;
-    background-color: #fff;
+   /* margin-top: 20px;
+    background-color: #fff;*/
     padding: 0;
     opacity: 0;
 }
@@ -360,6 +399,7 @@ body{
         opacity: 1;
     }
 }
+
 
 #msg-error-container{
     margin-left: 2px;
