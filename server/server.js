@@ -40,12 +40,12 @@ expServer.get('/qfinder', function(req, res) {
 });
 
 expServer.get('/qfinder/all', function(req, res) {
-	  
+
 	  var getResults = function(err, result){
 		if (err)
           return  res.status(500).json({"error":  err});
-			
-         return res.json(result);			
+
+         return res.json(result);
 	  }
 
 	  db.findAll(getResults);
@@ -54,8 +54,15 @@ expServer.get('/qfinder/all', function(req, res) {
 
 expServer.get('/qfinder/description/:desc', function(req, res) {
 
+    var getResults = function(err, result){
+        if (err)
+            return res.status(400).json({"error":  err});
 
-      if(typeof req.params.desc !== 'string' || req.params.desc.length === 0 || req.params.desc==='undefined'){
+        return res.json(result);
+    }
+
+
+    if(typeof req.params.desc !== 'string' || req.params.desc.length === 0 || req.params.desc==='undefined'){
           return res.status(500).json({
               "error": "The server did not get any expression value to search for."
           });
@@ -64,19 +71,20 @@ expServer.get('/qfinder/description/:desc', function(req, res) {
 	  var descriptQuery = req.params.desc;
 
 	  console.log('find by Description: ' + descriptQuery);
-	  
-	  var getResults = function(err, result){
-		if (err)
-           return res.status(400).json({"error":  err});
-			
-         return res.json(result);
-	  }
+
 
 	  db.findOne({description: new RegExp(descriptQuery, 'i')}, getResults);
 	  
 });
 
 expServer.get('/qfinder/query/:term', function(req, res) {
+
+    var getResults = function(err, result){
+        if (err)
+            return  res.status(500).json({"error":  err});
+
+        return res.json(result);
+    }
 
     if(!req.params.term || typeof req.params.term !== 'string' || req.params.term.length === 0){
         return res.status(500).json({
@@ -87,19 +95,23 @@ expServer.get('/qfinder/query/:term', function(req, res) {
 	var term = req.params.term;
 
 	console.log('find by Query: ' + term);
-	  
-	var getResults = function(err, result){
-		if (err)
-          return  res.status(500).json({"error":  err});
-			
-        return res.json(result);
-	}
+
 
 	db.findOne({query: new RegExp(term, 'i')}, getResults);
 	  
 });
 
 expServer.get('/qfinder/tags/:tagstr', function(req, res) {
+
+    var getResults = function(err, result){
+        if (err)
+            return res.status(500).json({"error":  err});
+
+        return res.json(result);
+    }
+
+    db.findOne({tags: new RegExp(term, 'i')}, getResults);
+
 
     if(!req.params.tagstr || typeof req.params.tagstr !== 'string' || req.params.tagstr.length === 0){
         return res.status(500).json({
@@ -109,20 +121,18 @@ expServer.get('/qfinder/tags/:tagstr', function(req, res) {
 
     var term = req.params.tagstr;
 
-	  console.log('find by tags: ' + term);
-	  
-	  var getResults = function(err, result){
-		if (err)
-           return res.status(500).json({"error":  err});
-			
-         return res.json(result);			
-	  }
+	console.log('find by tags: ' + term);
 
-	  db.findOne({tags: new RegExp(term, 'i')}, getResults);
-	  
 });
 
 expServer.get('/qfinder/author/:auth', function(req, res) {
+
+    var getResults = function(err, result){
+        if (err)
+            return res.status(500).json({"error":  err});
+
+        return res.json(result);
+    }
 
     if(!req.params.auth || typeof req.params.auth !== 'string' || req.params.auth.length === 0){
         return res.status(500).json({
@@ -134,12 +144,6 @@ expServer.get('/qfinder/author/:auth', function(req, res) {
 
     console.log('find by auth: ' + auth);
 
-    var getResults = function(err, result){
-        if (err)
-           return res.status(500).json({"error":  err});
-
-        return res.json(result);
-    }
 
     db.findOne({author: new RegExp(auth, 'i')}, getResults);
 
@@ -163,12 +167,6 @@ expServer.get('/qfinder/filter/teams', function(req, res) {
 
     console.log('find by filter: ' +searchParams.teams);
 
-    var getResults = function(err, result){
-        if (err)
-            return res.status(500).json({"error":  err});
-
-        return res.json(result);
-    }
 
     db.findByTeams(searchParams.term, searchParams.teams, getResults);
 
@@ -176,6 +174,13 @@ expServer.get('/qfinder/filter/teams', function(req, res) {
 
 
 expServer.get('/qfinder/filter', function(req, res) {
+
+    var getResults = function(err, result){
+        if (err)
+            return res.status(500).json({"error":  err});
+
+        return res.json(result);
+    }
 
     var searchParams = _.pick(req.query, 'term', 'fields','teams');
 
@@ -205,12 +210,6 @@ expServer.get('/qfinder/filter', function(req, res) {
 
     console.log('find by filter: ' +searchParams.fields);
 
-    var getResults = function(err, result){
-        if (err)
-            return res.status(500).json({"error":  err});
-
-        return res.json(result);
-    }
 
     db.findByFilters(searchParams.term, searchParams.fields, searchParams.teams, getResults);
 
@@ -219,7 +218,7 @@ expServer.get('/qfinder/filter', function(req, res) {
 expServer.post('/qfinder/create', function(req, res) {
   
 	var body = _.pick(req.body, 'description', 'query', 'team', 'author', 'version', 'creationDate', 'tags');
-
+    console.log(body);
     var missingParams = [];
 
     if(!body.description || typeof body.description !== 'string' || body.description.length === 0){
@@ -237,11 +236,10 @@ expServer.post('/qfinder/create', function(req, res) {
 
     if(missingParams.length > 0){
         res.status(500).json({
-            "error": "The server did not get any these parameters " + missingParams
-        });
+            "error": "The server did not get any these parameters: [ " + missingParams + " ]"});
     }
 
-	var prepareRecord = { 
+	var prepareRecord = {
 		   id: 0,
 		   description: body.description,
 		   query: body.query,
@@ -262,7 +260,8 @@ expServer.post('/qfinder/create', function(req, res) {
 			return res.json(newRecord);
 		}
 	});
-		
+
+
 });
 
 expServer.put('/qfinder/update', function(req, res) {
@@ -277,7 +276,7 @@ expServer.put('/qfinder/update', function(req, res) {
         missingParams.push('query');
     }
     if(!body.team || typeof body.team !== 'string' || body.team.length === 0){
-        missingParams.push('description');
+        missingParams.push('team');
     }
     if(!body.author || typeof body.author !== 'string' || body.author.length === 0){
         missingParams.push('author');
@@ -285,7 +284,7 @@ expServer.put('/qfinder/update', function(req, res) {
 
     if(missingParams.length > 0){
         res.status(500).json({
-            "error": "The server did not get any of these parameters " + missingParams
+            "error": "The server did not find any of these parameters in the request: [ " + missingParams + " ]"
         });
     }
 
@@ -295,22 +294,22 @@ expServer.put('/qfinder/update', function(req, res) {
 
         console.log(body);
 		query.description = body.description;
-			query.query = body.query;
-            team: body.team;
-            author: body.author;
-            version: body.version;
-            creationDate: body.creationDate;
-			query.tags = body.tags;
+		query.query = body.query;
+        query.team = body.team;
+        query.author = body.author;
+        query.version =  body.version;
+        query.creationDate = body.creationDate;
+		query.tags = body.tags;
 						
-			query.save(function (err, query) {
-					if (err){
-                        return res.status(500).json({"error":  err});
-					}else{						
-						console.log('find by id: ' + query.query);
+		query.save(function (err, query) {
+			if (err){
+                return res.status(500).json({"error":  err});
+		    }else{
+		 	    console.log('find by id: ' + query.query);
 						console.log('saved successfully');												
 						return res.json(query);
-					}
-			});			      		
+			}
+		});
 	  }
 
 	  db.findById(body._id, getResults);
@@ -326,13 +325,14 @@ expServer.delete('/qfinder/delete/:id', function(req, res) {
 	var getResults = function(err, result){
 		if (err)
             return res.status(500).json({"error":  err});
-		 
-         return res.json(result);			
+
+         return res.json(result);
 	}
 
 	db.findByIdAndRemove(id, getResults);
 		
 });
+
 
 
 
