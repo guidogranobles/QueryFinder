@@ -43,20 +43,20 @@
 
                                     <div class="callout column search-filters">
                                         <div>
-                                            <input type="checkbox" [(ngModel)]="teamFilters..selected"
-                                            ngControl="" #="ngForm"><span>{{teamFilters..label}}</span>
+                                            <input type="checkbox" [(ngModel)]="teamFilters.teamAppManag.selected"
+                                            ngControl="chkAppManag" #chkAppManag="ngForm"><span>{{teamFilters.teamAppManag.label}}</span>
                                         </div>
                                         <div>
-                                            <input type="checkbox" [(ngModel)]="teamFilters..selected"
-                                            ngControl="" #="ngForm"><span>{{teamFilters..label}}</span>
+                                            <input type="checkbox" [(ngModel)]="teamFilters.teamClosFun.selected"
+                                            ngControl="chkClosFun" #chkClosFun="ngForm"><span>{{teamFilters.teamClosFun.label}}</span>
                                         </div>
                                         <div>
-                                            <input type="checkbox" [(ngModel)]="teamFilters..selected"
-                                            ngControl="" #="ngForm"><span>{{teamFilters..label}}</span>
+                                            <input type="checkbox" [(ngModel)]="teamFilters.teamDocGenp.selected"
+                                            ngControl="chkDocGenp" #chkDocGenp="ngForm"><span>{{teamFilters.teamDocGenp.label}}</span>
                                         </div>
                                         <div>
-                                            <input type="checkbox" [(ngModel)]="teamFilters..selected"
-                                            ngControl="" #="ngForm"><span>{{teamFilters..label}}</span>
+                                            <input type="checkbox" [(ngModel)]="teamFilters.teamPricingFees.selected"
+                                            ngControl="chkPricingFees" #chkPricingFees="ngForm"><span>{{teamFilters.teamPricingFees.label}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -92,10 +92,11 @@
             </div>
             <!-- <div class="headerDivider" id="divider-results"></div> -->
             <div class="column large-11" id="results-container" [ngStyle]="{'margin-right': marginResults}">
-                <div class="row" id="search-title">{{action.label}}</div>
+                <div class="row" id="search-title">{{getLabelCurrentView()}}</div>
                 <div class="callout row" id="col-results">
-                    <frm-search-results *ngIf = "isSearchQueryActive()"></frm-search-results>
-                    <frm-add-query *ngIf = "isAddNewQueryActive()"  (onCancel)="test($event)">></frm-add-query>
+                    <frm-search-results *ngIf = "isSearchQueryActive()" ></frm-search-results>
+                    <frm-add-query      *ngIf = "isAddNewQueryActive()"></frm-add-query>
+                    <frm-update-query   *ngIf = "isEditQueryActive()" ></frm-update-query>
                 </div>
             </div>
         </div>
