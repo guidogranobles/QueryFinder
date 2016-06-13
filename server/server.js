@@ -298,7 +298,7 @@ expServer.put('/qfinder/update', function(req, res) {
         query.team = body.team;
         query.author = body.author;
         query.version =  body.version;
-        query.creationDate = body.creationDate;
+        query.creationDate = body.creationDate ? body.creationDate : new Date(),
 		query.tags = body.tags;
 						
 		query.save(function (err, query) {
