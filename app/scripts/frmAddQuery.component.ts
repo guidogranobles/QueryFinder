@@ -1,7 +1,3 @@
-/**
- * Created by u334244 on 5/31/16.
- */
-
 import {Component, Output, EventEmitter} from '@angular/core';
 import { NgForm }    from '@angular/common';
 import { NgStyle }    from '@angular/common';
@@ -11,6 +7,8 @@ import {Sidebar} from './sidebar.component';
 import {PrettifyDirective} from './prettify.directive';
 import {QFinderService} from './qFinder.service';
 import {SQLQuery}  from './sqlQuery.model';
+import {MainMenu}  from './mainMenu.model';
+import {MenuService}  from './menu.service';
 
 @Component({
     selector: 'frm-add-query',
@@ -29,7 +27,6 @@ export class FrmAddQuery {
     sqlQueries: SQLQuery[];
     responseManager: (messageType: string, message: string) => void;
     isDataMissing: boolean;
-    @Output() onCancel = new EventEmitter<any>();
 
     frmAddQuery: ControlGroup;
     description: AbstractControl;
@@ -39,7 +36,7 @@ export class FrmAddQuery {
     version: AbstractControl;
     newAction: any;
 
-    constructor(fb: FormBuilder, private qFinderService: QFinderService){
+    constructor(fb: FormBuilder, private qFinderService: QFinderService,  private menuService: MenuService){
         this.frmAddQuery = fb.group(
             {
                 'description': ['', Validators.required],
@@ -70,14 +67,8 @@ export class FrmAddQuery {
     }
 
     public cancelAction(){
-       this.newAction =   {
-            action: "Search",
-                label: "Search results"
-        };
+        this.menuService.Stream.changeCurrentView(MainMenu.activities.search);
 
-        this.onCancel.emit(this.newAction);
-
-        console.log(this.newAction);
     }
 
     private showMsgError(){
