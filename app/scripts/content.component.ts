@@ -1,30 +1,30 @@
-import {Component, ViewChild , Input   } from '@angular/core';
-import { NgForm }    from '@angular/common';
-import { NgStyle }    from '@angular/common';
+import {Component, ViewChild , Input, Output, ContentChild} from '@angular/core';
+import { NgForm }        from '@angular/common';
+import { NgStyle }       from '@angular/common';
 
-import {SQLQuery}  from './sqlQuery.model';
-import {FrmSearchResult}  from './frmSearchResults.component';
-import {FrmAddQuery}  from './frmAddQuery.component';
+import {SQLQuery}        from './sqlQuery.model';
+import {FrmSearchResult} from './frmSearchResults.component';
+import {FrmAddQuery}     from './frmAddQuery.component';
+import {FrmUpdateQuery}  from './frmUpdateQuery.component';
+import {MainMenu}        from './mainMenu.model';
+import {MenuService}  from './menu.service';
 
 @Component({ 
 	selector: 'my-content',
 	templateUrl: 'html/content.html',
-	directives: [NgStyle, FrmSearchResult, FrmAddQuery]
-
+	directives: [NgStyle, FrmSearchResult, FrmAddQuery, FrmUpdateQuery]
 })
 export class Content {
 
-    constructor(){
-
-    }
-
-    @ViewChild(FrmSearchResult) frmSearchResult:FrmSearchResult;
+   @ViewChild(FrmSearchResult) frmSearchResult:FrmSearchResult;
 
     fieldFilters = {description: {field: 'Description', label:'description', selected: false},
         query: {field: 'Query',  label:'query', selected: false}, tags: { field: 'Tags',  label:'tags', selected: false},
         author: { field: 'Author',  label:'author', selected: false } };
 
-   
+    teamFilters = { teamAppManag: { label:'Application Management', selected: false}, teamClosFun: { label: 'Closing/Funding', selected: false},
+        teamDocGenp: { label:'Doc Gen / Prepaids', selected: false}, teamPricingFees: { label: 'Pricing - Closing Fees', selected: false} };
+
     txtSearch: string = '';
     errorMessage: string;
     errorMsgVisible: boolean = false;
@@ -34,34 +34,26 @@ export class Content {
     footerMsg: string = '';
     showMsg = this.showMessage.bind(this);
     marginResults: string = '0';
-    transResults: string = '';
+    currentViewLabel: string;
+    subscription: any = null;
 
-    _action: any = {
-           action: "Search",
-           label: "Search results"
-    };
-
-    test(t: any){
-        this._action = t;
+    constructor(private menuService:MenuService){
+        this.subscription = this.menuService.Stream.subscribe( () => { this.currentViewLabel = MainMenu.currentView.label; });
     }
 
-   @Input()
-    set action(act: any){
-        this._action = act;
-        console.log(act);
+
+
+    public getLabelCurrentView(){
+       return MainMenu.currentView.label;
     }
 
-    get action(){
-        return this._action;
-    }
-
-    public findQuery(){
+   public findQuery(){
         this.frmSearchResult.findQuery(this.txtSearch, this.fieldFilters, this.teamFilters, this.showMsg);
     }
 
     public isSearchQueryActive(){
 
-        var isSearchSelected = this._action.action === 'Search'
+        var isSearchSelected = MainMenu.currentView.action === 'Search'
         if(isSearchSelected){
             this.moveResultsPanel('right');
         }else{
@@ -72,7 +64,11 @@ export class Content {
     }
 
     public isAddNewQueryActive(){
-        return this._action.action === 'Add';
+        return MainMenu.currentView.action === 'Add';
+    }
+
+    public isEditQueryActive(){
+        return MainMenu.currentView.action === 'Edit';
     }
 
     private moveResultsPanel(direction: string){
@@ -104,4 +100,7 @@ export class Content {
         setTimeout(function(){ pr.opValue = "";}, 5000);
     }
 
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 }
