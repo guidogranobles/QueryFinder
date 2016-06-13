@@ -1,14 +1,12 @@
-/**
- * Created by u334244 on 5/30/16.
- */
-import {Component} from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import { NgForm }    from '@angular/common';
 import { NgStyle }    from '@angular/common';
-
 import {Sidebar} from './sidebar.component';
 import {PrettifyDirective} from './prettify.directive';
 import {QFinderService} from './qFinder.service';
 import {SQLQuery}  from './sqlQuery.model';
+import {MainMenu}  from './mainMenu.model';
+import {MenuService}  from './menu.service';
 
 @Component({
     selector: 'frm-search-results',
@@ -18,11 +16,11 @@ import {SQLQuery}  from './sqlQuery.model';
 })
 export class FrmSearchResult {
 
-    constructor(private qFinderService: QFinderService){}
-
     errorMessage: string;
     sqlQueries: SQLQuery[];
     responseManager: (messageType: string, message: string) => void;
+
+    constructor(private qFinderService: QFinderService, private menuService: MenuService ){}
 
     findQuery(txtSearch:string, fieldFilters:Object, teamFilters:Object, procResponse: (messageType: string, message: string) => void){
 
@@ -74,7 +72,6 @@ export class FrmSearchResult {
     }
 
     private getByFullFilters(exp: string, fields: string, teams: string) {
-        console.log('getByFullFilters' + fields);
         this.qFinderService.getByFullFilters(exp, fields, teams)
             .subscribe(
             sqlQueries => this.responseProcessor(sqlQueries),
@@ -171,7 +168,11 @@ export class FrmSearchResult {
         }else{
             this.sqlQueries = results;
         }
+    }
 
-  }
+    public onClickEdit(sqlQuery: any){
+        this.menuService.Stream.sharedData = sqlQuery;
+        this.menuService.Stream.changeCurrentView(MainMenu.activities.edit);
+     }
 
 }
