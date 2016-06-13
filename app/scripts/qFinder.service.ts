@@ -1,11 +1,7 @@
-/**
- * Created by u334244 on 5/24/16.
- */
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions  } from '@angular/http';
 import { Observable }     from 'rxjs/Rx';
 import {SQLQuery}         from './sqlQuery.model';
-
 
 
 @Injectable()
@@ -77,6 +73,16 @@ export class QFinderService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.servicePath.postNewOne, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    update(newQuery: any): Observable<SQLQuery[]> {
+        let body = JSON.stringify(newQuery);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(this.servicePath.updateOne, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
