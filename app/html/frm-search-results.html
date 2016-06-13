@@ -49,12 +49,9 @@
     <div class="row callout  medium-15 large-15 form-footer">
         <div>
             <nav>
-                <a href="#" role="button" title="Edit query"><i
-                        class="step fi-page-edit size-60"></i></a>
-                <a href="#" role="button" title="Delete query"><i
-                        class="step fi-page-delete size-60"></i></a>
-                <a href="#" role="button" title="Add to favorites"><i
-                        class="step fi-star size-60"></i></a>
+                <button type="button" (click)="onClickEdit(sqlQuery)"><i class="step fi-page-edit size-60" title="Edit query"></i></button>
+                <button ><i class="step fi-page-delete size-60" title="Delete query"></i> </button>
+                <button ><i class="step fi-star size-60" title="Add to favorite"></i> </button>
             </nav>
         </div>
     </div>
